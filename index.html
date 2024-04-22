@@ -1,1 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Data Display</title>
+</head>
+<body>
+    <h1>Data from My Google Sheet</h1>
+    <div id="data"></div>
+    <script>
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSqOTt583cuJ0oVRQcqDO15r5MrC5FBkSxUhl6nyP9H1scP6usVCn60wsIsLWF8Qg/pubhtml')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('data').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading the data:', error));
+    </script>
+</body>
+</html>
 
