@@ -7,15 +7,37 @@
 </head>
 <body>
     <h1>Data from My Google Sheet</h1>
+    <input type="text" id="search-input" placeholder="Enter NCM value">
+    <button onclick="searchData()">Search</button>
     <div id="data"></div>
+
     <script>
-        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSqOTt583cuJ0oVRQcqDO15r5MrC5FBkSxUhl6nyP9H1scP6usVCn60wsIsLWF8Qg/pubhtml')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('data').innerHTML = data;
-            })
-            .catch(error => console.error('Error loading the data:', error));
+        // Function to search data based on NCM value
+        function searchData() {
+            var searchValue = document.getElementById('search-input').value;
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSqOTt583cuJ0oVRQcqDO15r5MrC5FBkSxUhl6nyP9H1scP6usVCn60wsIsLWF8Qg/pub?output=csv') // Update the URL to point to your CSV
+                .then(response => response.text())
+                .then(data => {
+                    var allRows = data.split(/\r?\n|\r/); // Split by rows
+                    var resultHtml = '';
+                    for(var singleRow = 0; singleRow < allRows.length; singleRow++) {
+                        var rowCells = allRows[singleRow].split(',');
+                        if(rowCells[0].trim() === searchValue.trim()) { // Assuming NCM is the first column
+                            // Update the index numbers to match your columns
+                            resultHtml += 'MODAL: ' + rowCells[1] + '<br>';
+                            resultHtml += 'PROVÁVEL IMPORTADOR: ' + rowCells[2] + '<br>';
+                            resultHtml += 'PROVÁVEL EXPORTADOR: ' + rowCells[3] + '<br>';
+                            resultHtml += 'VALOR FOB ESTIMADO TOTAL: ' + rowCells[4] + '<br>';
+                            resultHtml += 'PROVÁVEL IMPORTADOR CNPJ: ' + rowCells[5] + '<br>';
+                            resultHtml += 'PROVÁVEL IMPORTADOR ENDEREÇO: ' + rowCells[6] + '<br>';
+                            resultHtml += 'VALOR CIF TOTAL: ' + rowCells[7] + '<br>';
+                            break; // Stop the search after finding the first match
+                        }
+                    }
+                    document.getElementById('data').innerHTML = resultHtml;
+                })
+                .catch(error => console.error('Error loading the data:', error));
+        }
     </script>
 </body>
 </html>
-
