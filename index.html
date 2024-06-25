@@ -73,6 +73,12 @@
             z-index: 1;
             padding: 10px 0;
         }
+        .total-header {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 14px;
+            color: #333;
+        }
     </style></head><body>
     <h1>CSV Data Search and Display</h1>
     <div id="search-container">
@@ -80,7 +86,7 @@
         <button onclick="searchCSV()">Search</button>
     </div>
     <div class="table-container">
-        <h2 class="sticky-header">Search Results</h2>
+        <h2 class="sticky-header">Search Results <span id="total-inquiries" class="total-header"></span></h2>
         <table id="search-results-table">
             <thead></thead>
             <tbody></tbody>
@@ -158,6 +164,20 @@
                 return row.some(cell => cell.toLowerCase().includes(query));
             });
             results.unshift(csvData[0]); // Add header
+
+            // Calculate total for Inquiry NO 1 and Inquiry NO 2
+            const inquiry1Index = csvData[0].indexOf('Inquiry NO 1');
+            const inquiry2Index = csvData[0].indexOf('Inquiry NO 2');
+            let totalInquiries = 0;
+
+            results.slice(1).forEach(row => {
+                const inquiry1Value = row[inquiry1Index] ? 1 : 0;
+                const inquiry2Value = row[inquiry2Index] ? 1 : 0;
+                totalInquiries += inquiry1Value + inquiry2Value;
+            });
+
+            document.getElementById('total-inquiries').textContent = `Total Inquiries: ${totalInquiries}`;
+
             displayCSV(results, 'search-results-table');
         }
 
