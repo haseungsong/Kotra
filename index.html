@@ -57,21 +57,22 @@
         }
         .table-container {
             width: 100%;
-            overflow-x: scroll;
+            overflow-x: auto;
+            overflow-y: auto;
             white-space: nowrap;
             position: relative;
             margin-bottom: 20px;
             -webkit-overflow-scrolling: touch;
+            max-height: 80vh; /* Adjust this value as needed */
         }
         table {
             width: 100%;
-            margin: 20px auto;
             border-collapse: collapse;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         th,
         td {
-            padding: 12px;
+            padding: 8px;
             text-align: left;
             border-bottom: 1px solid #ddd;
             white-space: nowrap;
@@ -83,6 +84,12 @@
             top: 0;
             z-index: 2;
         }
+        .fixed {
+            position: sticky;
+            left: 0;
+            background-color: #f7f7f7;
+            z-index: 3;
+        }
         tr:hover {
             background-color: #f1f1f1;
         }
@@ -93,14 +100,15 @@
             outline: none;
             background-color: #e0e0e0;
         }
-        .fixed {
-            position: sticky;
-            left: 0;
-            background-color: #f7f7f7;
-            z-index: 3;
-        }
         .report-button {
             margin-right: 20px;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #f4f4f9;
+            z-index: 2;
+            padding: 10px 0;
         }
         .popup {
             width: 1200px;
@@ -258,6 +266,7 @@
                         const td = document.createElement('td');
                         td.textContent = cell;
                         td.tabIndex = 0;
+                        td.style.minWidth = "100px";  // Minimum width to ensure readability
                         if (headers[index] === "Inquiry NO 1" || headers[index] === "Inquiry NO 2") {
                             inquiryCount += cell ? 1 : 0;
                         }
