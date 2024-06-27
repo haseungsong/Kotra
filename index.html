@@ -111,6 +111,34 @@
             overflow: auto;
             resize: both;
         }
+        .text-input-container {
+            margin-top: 20px;
+        }
+        .text-input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 12px;
+            resize: none;
+            line-height: 1.2;
+        }
+        .one-inquiry-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .one-inquiry-table th,
+        .one-inquiry-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .one-inquiry-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -142,6 +170,7 @@
             <tbody></tbody>
         </table>
     </div>
+    <div id="company-table-container"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -406,8 +435,10 @@
             const reportWindow = window.open("", "ReportWindow", "width=800,height=600");
             reportWindow.document.write("<h1>Report</h1>");
             reportWindow.document.write("<canvas id='reportChart' width='800' height='400'></canvas>");
+            reportWindow.document.write('<div class="text-input-container"><h2>Companies with 1 Inquiry:</h2><table class="one-inquiry-table"><thead><tr><th>Company Name</th></tr></thead><tbody></tbody></table></div>');
 
             const ctx = reportWindow.document.getElementById('reportChart').getContext('2d');
+            const tableBody = reportWindow.document.querySelector('.one-inquiry-table tbody');
 
             const table = document.getElementById('search-results-table');
             const headers = table.querySelectorAll('th');
@@ -448,10 +479,20 @@
                 companyData[companyName] += totalInquiryValue;
             });
 
-            for (const companyName in companyData) {
-                labels.push(companyName);
-                data.push(companyData[companyName]);
-            }
+            const sortedCompanyData = Object.entries(companyData).sort((a, b) => b[1] - a[1]);
+
+            sortedCompanyData.forEach(([companyName, totalInquiries]) => {
+                if (totalInquiries === 1) {
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.textContent = companyName;
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
+                } else {
+                    labels.push(companyName);
+                    data.push(totalInquiries);
+                }
+            });
 
             new Chart(ctx, {
                 type: 'bar',
