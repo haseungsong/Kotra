@@ -291,6 +291,10 @@
 
         function deleteSearch() {
             document.getElementById('search-input').value = '';
+            const table = document.getElementById('search-results-table');
+            table.querySelector('thead').innerHTML = '';
+            table.querySelector('tbody').innerHTML = '';
+            document.getElementById('total-inquiries').textContent = '';
         }
 
         function handleKeyPress(event) {
