@@ -249,17 +249,17 @@
             tbody.innerHTML = ''; // 바디 초기화
 
             const headers = rows[0]; // 첫 번째 행(헤더) 선택
+            const validColumns = headers.map((header, index) => (header ? index : null)).filter(index => index !== null); // 유효한 열 인덱스 저장
+
             const headerRow = document.createElement('tr'); // 헤더 행 생성
-            headers.forEach((header, index) => { // 헤더 반복
-                if (header !== 'CHK1' && header !== 'CHK2') {
-                    const th = document.createElement('th'); // 헤더 셀 생성
-                    th.textContent = header; // 텍스트 설정
-                    th.dataset.index = index; // 데이터 인덱스 설정
-                    if (header === "a. Razão Social (Nome completo do CNPJ)") {
-                        th.classList.add('fixed'); // 고정 클래스 추가
-                    }
-                    headerRow.appendChild(th); // 헤더 행에 추가
+            validColumns.forEach(index => { // 유효한 열 반복
+                const th = document.createElement('th'); // 헤더 셀 생성
+                th.textContent = headers[index]; // 텍스트 설정
+                th.dataset.index = index; // 데이터 인덱스 설정
+                if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
+                    th.classList.add('fixed'); // 고정 클래스 추가
                 }
+                headerRow.appendChild(th); // 헤더 행에 추가
             });
             thead.appendChild(headerRow); // 테이블 헤더에 추가
 
@@ -268,20 +268,19 @@
             rows.slice(1).forEach(row => { // 데이터 행 반복
                 const dataRow = document.createElement('tr'); // 데이터 행 생성
                 let inquiryCount = 0; // 문의 수 초기화
-                row.forEach((cell, index) => { // 셀 반복
-                    if (headers[index] !== 'CHK1' && headers[index] !== 'CHK2') {
-                        const td = document.createElement('td'); // 데이터 셀 생성
-                        td.textContent = cell; // 텍스트 설정
-                        td.tabIndex = 0; // 탭 인덱스 설정
-                        td.style.minWidth = "100px";  // 최소 너비 설정
-                        if (headers[index] === "Inquiry NO 1" || headers[index] === "Inquiry NO 2") {
-                            inquiryCount += cell ? 1 : 0; // 문의 수 증가
-                        }
-                        if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
-                            td.classList.add('fixed'); // 고정 클래스 추가
-                        }
-                        dataRow.appendChild(td); // 데이터 행에 추가
+                validColumns.forEach(index => { // 유효한 열 반복
+                    const cell = row[index]; // 셀 값 가져오기
+                    const td = document.createElement('td'); // 데이터 셀 생성
+                    td.textContent = cell; // 텍스트 설정
+                    td.tabIndex = 0; // 탭 인덱스 설정
+                    td.style.minWidth = "100px";  // 최소 너비 설정
+                    if (headers[index] === "Inquiry NO 1" || headers[index] === "Inquiry NO 2") {
+                        inquiryCount += cell ? 1 : 0; // 문의 수 증가
                     }
+                    if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
+                        td.classList.add('fixed'); // 고정 클래스 추가
+                    }
+                    dataRow.appendChild(td); // 데이터 행에 추가
                 });
                 tbody.appendChild(dataRow); // 테이블 바디에 추가
                 totalInquiriesCount += inquiryCount; // 총 문의 수 증가
