@@ -48,6 +48,13 @@
         button:hover {
             background-color: #0056b3;
         }
+        .delete-button {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
         .table-container {
             width: 100%;
             overflow-x: scroll;
@@ -95,6 +102,15 @@
         .report-button {
             margin-right: 20px;
         }
+        .popup {
+            width: 1200px;
+            height: 800px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            overflow: auto;
+            resize: both;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +133,7 @@
         </select>
         <input type="text" id="search-input" placeholder="Enter search keyword" onkeypress="handleKeyPress(event)">
         <button onclick="searchCSV()">Search</button>
+        <button class="delete-button" onclick="deleteSearch()">Delete</button>
     </div>
     <div class="table-container">
         <h2 class="sticky-header">Search Results <span id="total-inquiries" class="total-header"></span> <button class="report-button" onclick="loadChartScripts()">Report</button></h2>
@@ -221,55 +238,59 @@
         }
 
         function searchCSV() {
-        const query = document.getElementById('search-input').value.toLowerCase().trim();
-        const category = document.getElementById('search-category').value;
-        const year = document.getElementById('search-year').value;
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const category = document.getElementById('search-category').value;
+            const year = document.getElementById('search-year').value;
 
-        const companyField = "a. razão social (nome completo do cnpj)".toLowerCase();
-        const inquiry1Field = "inquiry no 1".toLowerCase();
-        const inquiry2Field = "inquiry no 2".toLowerCase();
-        const ncmField = "b código ncm (pelo menos 6 dígitos, sem \"\")".toLowerCase();
-        const segmentoField = "e. segmento de mercado".toLowerCase();
-        const productFieldA = "a. produto de interesse".toLowerCase();
-        const productFieldB = "b. produto de interesse".toLowerCase();
-        const staffField = "Staff".toLowerCase();
+            const companyField = "a. razão social (nome completo do cnpj)".toLowerCase();
+            const inquiry1Field = "inquiry no 1".toLowerCase();
+            const inquiry2Field = "inquiry no 2".toLowerCase();
+            const ncmField = "b código ncm (pelo menos 6 dígitos, sem \"\")".toLowerCase();
+            const segmentoField = "e. segmento de mercado".toLowerCase();
+            const productFieldA = "a. produto de interesse".toLowerCase();
+            const productFieldB = "b. produto de interesse".toLowerCase();
+            const staffField = "Staff".toLowerCase();
 
-        const results = csvData.filter((row, index) => {
-            if (index === 0) return false;
+            const results = csvData.filter((row, index) => {
+                if (index === 0) return false;
 
-            const yearValue = row[0].substring(0, 4);
-            if (year && year !== yearValue) return false;
+                const yearValue = row[0].substring(0, 4);
+                if (year && year !== yearValue) return false;
 
-            let matchFound = false;
+                let matchFound = false;
 
-            row.forEach((cell, cellIndex) => {
-                const cellValue = cell.toLowerCase();
-                const header = csvData[0][cellIndex].toLowerCase().trim();
+                row.forEach((cell, cellIndex) => {
+                    const cellValue = cell.toLowerCase();
+                    const header = csvData[0][cellIndex].toLowerCase().trim();
 
-                if (category === 'all' && cellValue.includes(query)) {
-                    matchFound = true;
-                } else if (category === 'company' && header === companyField && cellValue.includes(query)) {
-                    matchFound = true;
-                } else if (category === 'inquiry' && (header === inquiry1Field || header === inquiry2Field) && cellValue.includes(query)) {
-                    matchFound = true;
-                } else if (category === 'ncm' && header === ncmField && cellValue.startsWith(query)) {
-                    matchFound = true;
-                } else if (category === 'segmento' && header === segmentoField && cellValue.includes(query)) {
-                    matchFound = true;
-                } else if (category === 'product' && (header === productFieldA || header === productFieldB) && cellValue.includes(query)) {
-                    matchFound = true;
-                } else if (category === 'staff' && header === staffField && cellValue.includes(query)) {
-                    matchFound = true;
-                }
+                    if (category === 'all' && cellValue.includes(query)) {
+                        matchFound = true;
+                    } else if (category === 'company' && header === companyField && cellValue.includes(query)) {
+                        matchFound = true;
+                    } else if (category === 'inquiry' && (header === inquiry1Field || header === inquiry2Field) && cellValue.includes(query)) {
+                        matchFound = true;
+                    } else if (category === 'ncm' && header === ncmField && cellValue.startsWith(query)) {
+                        matchFound = true;
+                    } else if (category === 'segmento' && header === segmentoField && cellValue.includes(query)) {
+                        matchFound = true;
+                    } else if (category === 'product' && (header === productFieldA || header === productFieldB) && cellValue.includes(query)) {
+                        matchFound = true;
+                    } else if (category === 'staff' && header === staffField && cellValue.includes(query)) {
+                        matchFound = true;
+                    }
+                });
+
+                return matchFound;
             });
 
-            return matchFound;
-        });
+            results.unshift(csvData[0]);
 
-        results.unshift(csvData[0]);
+            displayCSV(results, 'search-results-table');
+            document.getElementById('total-inquiries').textContent = `Total Inquiries: ${results.length - 1}`;
+        }
 
-        displayCSV(results, 'search-results-table');
-        document.getElementById('total-inquiries').textContent = `Total Inquiries: ${results.length - 1}`;
+        function deleteSearch() {
+            document.getElementById('search-input').value = '';
         }
 
         function handleKeyPress(event) {
