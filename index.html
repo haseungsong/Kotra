@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"> <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 장치의 화면 크기에 맞추기 위한 설정 -->
-    <title>Kotra Inquiry Data</title> <!-- 문서 제목 설정 -->
+    <title>Kotra Inquiry Portal</title> <!-- 문서 제목 설정 -->
     <style>
         /* 기본 스타일 설정 */
         body {
@@ -150,8 +150,19 @@
             background-color: #f4f4f4; /* 배경색 설정 */
             font-weight: bold; /* 글자 두께 설정 */
         }
+        /* 숨기고 싶은 열 스타일 */
+        .hidden-column {
+        display: none;
+        }
     </style>
 </head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.zoom = "80%";
+    });
+</script>
+
 <body>
     <h1>[Kotra SP] Inquiry Data Search and Display</h1> <!-- 제목 설정 -->
     <div id="search-container">
@@ -259,7 +270,11 @@
                 if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
                     th.classList.add('fixed'); // 고정 클래스 추가
                 }
+                if (headers[index] === "CHK1" || headers[index] === "CHK2") {
+                th.classList.add('hidden-column'); // 숨기고 싶은 열에 클래스 추가
+                 }
                 headerRow.appendChild(th); // 헤더 행에 추가
+
             });
             thead.appendChild(headerRow); // 테이블 헤더에 추가
 
@@ -274,6 +289,9 @@
                     td.textContent = cell; // 텍스트 설정
                     td.tabIndex = 0; // 탭 인덱스 설정
                     td.style.minWidth = "100px";  // 최소 너비 설정
+                    if (headers[index] === "CHK1" || headers[index] === "CHK2") {
+                    td.classList.add('hidden-column'); // 숨기고 싶은 열에 클래스 추가
+                    }
                     if (headers[index] === "Inquiry NO 1" || headers[index] === "Inquiry NO 2") {
                         inquiryCount += cell ? 1 : 0; // 문의 수 증가
                     }
