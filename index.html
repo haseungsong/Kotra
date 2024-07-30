@@ -259,8 +259,8 @@
                 if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
                     th.classList.add('fixed'); // 고정 클래스 추가
                 }
-                if (headers[index] === "CHK1" || headers[index] === "CHK2") {
-                    th.classList.add('hidden-column'); // 숨기고 싶은 열에 클래스 추가
+                if (headers[index] === "CHK1" || headers[index] === "CHK2" || headers[index] === "b.CNPJ" || headers[index] === "c. Endereço (Sem CEP)" || headers[index] === "Column3" || headers[index] === "Column4") {
+                th.classList.add('hidden-column'); // 숨기고 싶은 열에 클래스 추가
                 }
                 headerRow.appendChild(th); // 헤더 행에 추가
             });
