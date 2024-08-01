@@ -193,6 +193,7 @@
         <input type="text" id="search-input" placeholder="Enter search keyword" onkeypress="handleKeyPress(event)">
         <button onclick="searchCSV()">Search</button>
         <button class="delete-button" onclick="deleteSearch()">Delete</button>
+        <button onclick="exportToExcel()">Export to Excel</button>
     </div>
     <div class="table-container">
         <h2 class="sticky-header">Search Results <span id="total-inquiries" class="total-header"></span> <button class="report-button" onclick="loadChartScripts()">Report</button></h2>
@@ -204,6 +205,7 @@
     <div id="company-table-container"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> <!-- CSV 파싱 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- 차트 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script> <!-- XLSX 라이브러리 -->
     <script>
         let csvData; /* CSV 데이터 저장 변수 */
         const correctPassword = "kotra1234!"; /* 올바른 비밀번호 */
@@ -585,6 +587,33 @@
                 document.head.appendChild(scriptDatalabels);
             };
             document.head.appendChild(script);
+        }
+
+        function exportToExcel() {
+            // 검색 결과 테이블 가져오기
+            const table = document.getElementById('search-results-table');
+            const rows = table.querySelectorAll('tr');
+            const data = [];
+
+            // 테이블의 각 행을 배열로 변환
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('th, td');
+                const rowData = [];
+                cells.forEach(cell => {
+                    rowData.push(cell.textContent);
+                });
+                data.push(rowData);
+            });
+
+            // 워크북 생성
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+
+            // 워크북에 시트 추가
+            XLSX.utils.book_append_sheet(wb, ws, 'Search Results');
+
+            // 엑셀 파일로 저장
+            XLSX.writeFile(wb, 'search_results.xlsx');
         }
     </script>
 </body>
