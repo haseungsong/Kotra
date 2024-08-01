@@ -478,11 +478,11 @@
             let inquiry1Index = -1;
             let inquiry2Index = -1;
             headers.forEach((header, index) => {
-                if (header.textContent === 'a. Razão Social (Nome completo do CNPJ)') {
+                if (header.textContent === 'a. Razão Social (Nome completo do CNPJ)') { // 회사 이름 컬럼 인덱스 저장
                     companyIndex = index;
-                } else if (header.textContent === 'Inquiry NO 1') {
+                } else if (header.textContent === 'Inquiry NO 1') { // 문의 1 컬럼 인덱스 저장
                     inquiry1Index = index;
-                } else if (header.textContent === 'Inquiry NO 2') {
+                } else if (header.textContent === 'Inquiry NO 2') { // 문의 2 컬럼 인덱스 저장
                     inquiry2Index = index;
                 }
             });
@@ -490,11 +490,11 @@
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
                 if (companyIndex === -1 || inquiry1Index === -1 || inquiry2Index === -1 || cells.length <= companyIndex || cells.length <= inquiry1Index || cells.length <= inquiry2Index) {
-                    console.error('Index out of bounds or invalid cell reference');
+                    console.error('Index out of bounds or invalid cell reference'); // 인덱스 오류 시 메시지 출력
                     return;
                 }
 
-                const companyName = cells[companyIndex].textContent || 'N/A';
+                const companyName = (cells[companyIndex].textContent || 'N/A').substring(0, 15); // 회사 이름 앞 15글자만 추출
                 const inquiry1Value = cells[inquiry1Index].textContent ? 1 : 0;
                 const inquiry2Value = cells[inquiry2Index].textContent ? 1 : 0;
                 const totalInquiryValue = inquiry1Value + inquiry2Value;
