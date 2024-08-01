@@ -153,6 +153,18 @@
         .hidden-column { /* 숨겨진 열 스타일 */
             display: none; /* 표시하지 않음 */
         }
+
+        @media (max-width: 600px) { /* 모바일 화면 스타일 */
+            th.fixed, td.fixed {
+                white-space: nowrap; /* 공백을 줄바꿈 없이 설정 */
+                overflow: hidden; /* 오버플로우 숨김 */
+                text-overflow: ellipsis; /* 텍스트 오버플로우 시 생략 표시 (...) */
+                max-width: 100px; /* 최대 너비 설정 */
+            }
+            th.fixed::after, td.fixed::after {
+                content: '...'; /* 생략 표시 추가 */
+            }
+        }
     </style>
 </head>
 
