@@ -1,174 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 장치의 화면 크기에 맞추기 위한 설정 -->
-    <title>Kotra Inquiry Portal</title> <!-- 문서 제목 설정 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotra Inquiry Portal</title>
     <style>
-        /* 기본 스타일 설정 */
-        body {
-            font-family: Arial, Helvetica, sans-serif; /* 글꼴 설정 */
-            margin: 0; /* 기본 마진 제거 */
-            padding: 20px; /* 패딩 설정 */
-            background-color: #f4f4f9; /* 배경색 설정 */
+        body { /* 페이지의 전반적인 스타일 */
+            font-family: Arial, Helvetica, sans-serif; /* 페이지의 기본 폰트 설정 */
+            margin: 0; /* 페이지의 기본 여백 제거 */
+            padding: 20px; /* 페이지 내부 여백 설정 */
+            background-color: #f4f4f9; /* 페이지 배경색 설정 */
         }
-        h1 {
-            text-align: center; /* 텍스트 중앙 정렬 */
-            color: #333; /* 글자 색상 설정 */
+        h1 { /* 페이지 제목 스타일 */
+            text-align: center; /* 제목 중앙 정렬 */
+            color: #333; /* 제목 글자 색상 */
         }
-        /* 검색 컨테이너 스타일 */
-        #search-container {
+        #search-container { /* 검색 컨테이너 스타일 */
             max-width: 800px; /* 최대 너비 설정 */
-            margin: 20px auto; /* 상하 여백 20px, 중앙 정렬 */
-            display: flex; /* 플렉스 박스 사용 */
+            margin: 20px auto; /* 상하 여백 20px, 좌우 중앙 정렬 */
+            display: flex; /* 플렉스 박스 설정 */
             justify-content: center; /* 중앙 정렬 */
             align-items: center; /* 수직 중앙 정렬 */
         }
-        input[type="text"],
-        select {
-            padding: 10px; /* 패딩 설정 */
+        input[type="text"], /* 텍스트 입력 필드 스타일 */
+        select { /* 선택 박스 스타일 */
+            padding: 10px; /* 내부 여백 설정 */
             margin-left: 10px; /* 왼쪽 여백 설정 */
             border: 1px solid #ccc; /* 테두리 설정 */
-            border-radius: 4px; /* 테두리 반경 설정 */
+            border-radius: 4px; /* 테두리 둥글게 설정 */
         }
-        input[type="text"] {
-            flex-grow: 1; /* 남은 공간을 채우도록 설정 */
-            width: auto; /* 너비 자동 설정 */
+        input[type="text"] { /* 텍스트 입력 필드 스타일 */
+            flex-grow: 1; /* 너비 유연하게 설정 */
+            width: auto; /* 자동 너비 설정 */
         }
-        select {
-            width: 15%; /* 너비 15% 설정 */
+        select { /* 선택 박스 스타일 */
+            width: 15%; /* 너비 설정 */
         }
-        button {
-            padding: 10px 20px; /* 패딩 설정 */
+        button { /* 버튼 스타일 */
+            padding: 10px 20px; /* 내부 여백 설정 */
             background-color: #007bff; /* 배경색 설정 */
             color: white; /* 글자 색상 설정 */
             border: none; /* 테두리 제거 */
-            border-radius: 4px; /* 테두리 반경 설정 */
+            border-radius: 4px; /* 테두리 둥글게 설정 */
             cursor: pointer; /* 커서 모양 설정 */
             margin-left: 10px; /* 왼쪽 여백 설정 */
         }
-        button:hover {
-            background-color: #0056b3; /* 호버 시 배경색 설정 */
+        button:hover { /* 버튼 호버 스타일 */
+            background-color: #0056b3; /* 호버시 배경색 설정 */
         }
-        .delete-button {
+        .delete-button { /* 삭제 버튼 스타일 */
             background-color: #dc3545; /* 배경색 설정 */
             margin-left: 10px; /* 왼쪽 여백 설정 */
         }
-        .delete-button:hover {
-            background-color: #c82333; /* 호버 시 배경색 설정 */
+        .delete-button:hover { /* 삭제 버튼 호버 스타일 */
+            background-color: #c82333; /* 호버시 배경색 설정 */
         }
-        /* 테이블 컨테이너 스타일 */
-        .table-container {
+        .table-container { /* 테이블 컨테이너 스타일 */
             width: 100%; /* 너비 100% 설정 */
             overflow-x: auto; /* 가로 스크롤 설정 */
             overflow-y: auto; /* 세로 스크롤 설정 */
-            white-space: nowrap; /* 줄바꿈 방지 */
+            white-space: nowrap; /* 공백을 줄바꿈 없이 설정 */
             position: relative; /* 상대 위치 설정 */
-            margin-bottom: 20px; /* 하단 여백 설정 */
-            -webkit-overflow-scrolling: touch; /* 모바일 스크롤 부드럽게 설정 */
+            margin-bottom: 20px; /* 아래 여백 설정 */
+            -webkit-overflow-scrolling: touch; /* 터치 스크롤 설정 */
             max-height: 110vh; /* 최대 높이 설정 */
         }
-        table {
+        table { /* 테이블 스타일 */
             width: 100%; /* 너비 100% 설정 */
-            border-collapse: collapse; /* 테두리 중첩 제거 */
+            border-collapse: collapse; /* 테두리 겹치지 않게 설정 */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+            table-layout: fixed; /* 테이블 레이아웃 고정 */
         }
-        th,
-        td {
-            padding: 8px; /* 패딩 설정 */
+        th, /* 테이블 헤더 스타일 */
+        td { /* 테이블 데이터 셀 스타일 */
+            padding: 8px; /* 내부 여백 설정 */
             text-align: left; /* 왼쪽 정렬 */
-            border-bottom: 1px solid #ddd; /* 하단 테두리 설정 */
-            white-space: nowrap; /* 줄바꿈 방지 */
+            border-bottom: 1px solid #ddd; /* 아래 테두리 설정 */
+            white-space: normal; /* 공백 줄바꿈 설정 */
+            word-wrap: break-word; /* 단어 줄바꿈 설정 */
+            overflow: hidden; /* 오버플로우 숨김 */
         }
-        th {
+        th { /* 테이블 헤더 스타일 */
             background-color: #f7f7f7; /* 배경색 설정 */
-            font-weight: bold; /* 글자 두께 설정 */
+            font-weight: bold; /* 글자 굵게 설정 */
             position: sticky; /* 고정 위치 설정 */
-            top: 0; /* 상단 위치 설정 */
+            top: 0; /* 상단에 고정 */
             z-index: 2; /* z-index 설정 */
         }
-        .fixed {
+        .fixed { /* 고정 열 스타일 */
             position: sticky; /* 고정 위치 설정 */
-            left: 0; /* 왼쪽 위치 설정 */
+            left: 0; /* 왼쪽에 고정 */
             background-color: #f7f7f7; /* 배경색 설정 */
             z-index: 3; /* z-index 설정 */
         }
-        tr:hover {
-            background-color: #f1f1f1; /* 호버 시 배경색 설정 */
+        tr:hover { /* 테이블 행 호버 스타일 */
+            background-color: #f1f1f1; /* 호버시 배경색 설정 */
         }
-        .highlight {
-            background-color: yellow; /* 강조 배경색 설정 */
+        .highlight { /* 강조 스타일 */
+            background-color: yellow; /* 배경색 노란색 설정 */
         }
-        td:focus {
-            outline: none; /* 윤곽선 제거 */
+        td:focus { /* 포커스 스타일 */
+            outline: none; /* 외곽선 제거 */
             background-color: #e0e0e0; /* 배경색 설정 */
         }
-        .report-button {
+        .report-button { /* 리포트 버튼 스타일 */
             margin-right: 20px; /* 오른쪽 여백 설정 */
         }
-        .sticky-header {
+        .sticky-header { /* 고정 헤더 스타일 */
             position: sticky; /* 고정 위치 설정 */
-            top: 0; /* 상단 위치 설정 */
+            top: 0; /* 상단에 고정 */
             background-color: #f4f4f9; /* 배경색 설정 */
             z-index: 2; /* z-index 설정 */
-            padding: 10px 0; /* 패딩 설정 */
+            padding: 10px 0; /* 내부 여백 설정 */
         }
-        .popup {
+        .popup { /* 팝업 스타일 */
             width: 1200px; /* 너비 설정 */
             height: 800px; /* 높이 설정 */
             border: 1px solid #ccc; /* 테두리 설정 */
             background-color: #fff; /* 배경색 설정 */
-            padding: 20px; /* 패딩 설정 */
-            overflow: auto; /* 스크롤 설정 */
-            resize: both; /* 크기 조정 가능 */
+            padding: 20px; /* 내부 여백 설정 */
+            overflow: auto; /* 오버플로우 설정 */
+            resize: both; /* 크기 조절 가능 */
         }
-        .text-input-container {
+        .text-input-container { /* 텍스트 입력 컨테이너 스타일 */
             margin-top: 20px; /* 상단 여백 설정 */
         }
-        .text-input {
+        .text-input { /* 텍스트 입력 필드 스타일 */
             width: 100%; /* 너비 100% 설정 */
             height: 50px; /* 높이 설정 */
             border: 1px solid #ccc; /* 테두리 설정 */
-            border-radius: 4px; /* 테두리 반경 설정 */
-            padding: 10px; /* 패딩 설정 */
+            border-radius: 4px; /* 테두리 둥글게 설정 */
+            padding: 10px; /* 내부 여백 설정 */
             font-size: 12px; /* 글자 크기 설정 */
-            resize: none; /* 크기 조정 불가 설정 */
+            resize: none; /* 크기 조절 불가 */
             line-height: 1.2; /* 줄 간격 설정 */
         }
-        .one-inquiry-table {
+        .one-inquiry-table { /* 한 개의 문의 테이블 스타일 */
             width: 100%; /* 너비 100% 설정 */
-            border-collapse: collapse; /* 테두리 중첩 제거 */
+            border-collapse: collapse; /* 테두리 겹치지 않게 설정 */
             margin-top: 20px; /* 상단 여백 설정 */
         }
-        .one-inquiry-table th,
-        .one-inquiry-table td {
+        .one-inquiry-table th, /* 한 개의 문의 테이블 헤더 스타일 */
+        .one-inquiry-table td { /* 한 개의 문의 테이블 데이터 셀 스타일 */
             border: 1px solid #ddd; /* 테두리 설정 */
-            padding: 8px; /* 패딩 설정 */
+            padding: 8px; /* 내부 여백 설정 */
             text-align: left; /* 왼쪽 정렬 */
         }
-        .one-inquiry-table th {
+        .one-inquiry-table th { /* 한 개의 문의 테이블 헤더 스타일 */
             background-color: #f4f4f4; /* 배경색 설정 */
-            font-weight: bold; /* 글자 두께 설정 */
+            font-weight: bold; /* 글자 굵게 설정 */
         }
-        .hidden-column {
-            display: none; /* 숨기고 싶은 열 */
+        .hidden-column { /* 숨겨진 열 스타일 */
+            display: none; /* 표시하지 않음 */
         }
     </style>
 </head>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() { // 문서 로드 시 이벤트 리스너 추가
-        document.body.style.zoom = "80%"; // 페이지 줌을 80%로 설정
+    document.addEventListener('DOMContentLoaded', function() { /* DOMContentLoaded 이벤트 리스너 */
+        document.body.style.zoom = "80%"; /* 페이지 줌 설정 */
     });
 </script>
 
 <body>
-    <h1>[Kotra SP] Inquiry Data Search and Display</h1> <!-- 제목 설정 -->
+    <h1>[Kotra SP] Inquiry Data Search and Display</h1>
     <div id="search-container">
-        <select id="search-year"> <!-- 연도 선택 드롭다운 -->
-            <option value="all">All</option> <!-- 모든 연도 옵션 추가 -->
+        <select id="search-year">
+            <option value="all">All</option>
+            <!-- 연도 드롭다운의 옵션은 자바스크립트에서 동적으로 추가됩니다 -->
         </select>
-        <select id="search-category"> <!-- 카테고리 선택 드롭다운 -->
+        <select id="search-category">
             <option value="all">All</option>
             <option value="company">Company Name</option>
             <option value="inquiry">Inquiry</option>
@@ -177,400 +178,401 @@
             <option value="product">Product</option>
             <option value="staff">Staff</option>
         </select>
-        <input type="text" id="search-input" placeholder="Enter search keyword" onkeypress="handleKeyPress(event)"> <!-- 검색 입력 필드 -->
-        <button onclick="searchCSV()">Search</button> <!-- 검색 버튼 -->
-        <button class="delete-button" onclick="deleteSearch()">Delete</button> <!-- 삭제 버튼 -->
+        <input type="text" id="search-input" placeholder="Enter search keyword" onkeypress="handleKeyPress(event)">
+        <button onclick="searchCSV()">Search</button>
+        <button class="delete-button" onclick="deleteSearch()">Delete</button>
     </div>
-    <div class="table-container"> <!-- 테이블 컨테이너 -->
-        <h2 class="sticky-header">Search Results <span id="total-inquiries" class="total-header"></span> <button class="report-button" onclick="loadChartScripts()">Report</button></h2> <!-- 검색 결과 헤더 -->
-        <table id="search-results-table"> <!-- 검색 결과 테이블 -->
-            <thead></thead> <!-- 테이블 헤더 -->
-            <tbody></tbody> <!-- 테이블 바디 -->
+    <div class="table-container">
+        <h2 class="sticky-header">Search Results <span id="total-inquiries" class="total-header"></span> <button class="report-button" onclick="loadChartScripts()">Report</button></h2>
+        <table id="search-results-table">
+            <thead></thead>
+            <tbody></tbody>
         </table>
     </div>
-    <div id="company-table-container"></div> <!-- 회사 테이블 컨테이너 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> <!-- PapaParse 라이브러리 -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js 라이브러리 -->
+    <div id="company-table-container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> <!-- CSV 파싱 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- 차트 라이브러리 -->
     <script>
-        let csvData; // CSV 데이터 저장 변수
-        const correctPassword = "kotra1234!"; // 올바른 비밀번호 설정
-        let totalInquiriesCount = 0; // 총 문의 수 초기화
+        let csvData; /* CSV 데이터 저장 변수 */
+        const correctPassword = "kotra1234!"; /* 올바른 비밀번호 */
+        let totalInquiriesCount = 0; /* 전체 문의 수 */
 
-        async function fetchCSV() { // CSV 파일을 가져오는 비동기 함수
-            const response = await fetch('https://raw.githubusercontent.com/haseungsong/Kotra/main/TEST%20DB.csv'); // CSV 파일 가져오기
-            const data = await response.text(); // 응답을 텍스트로 변환
-            return data; // 데이터 반환
+        async function fetchCSV() { /* CSV 파일 가져오기 함수 */
+            const response = await fetch('https://raw.githubusercontent.com/haseungsong/Kotra/main/TEST%20DB.csv'); /* CSV 파일 요청 */
+            const data = await response.text(); /* 텍스트 형식으로 데이터 가져오기 */
+            return data; /* 데이터 반환 */
         }
 
-        function parseCSV(data) { // CSV 데이터를 파싱하는 함수
+        function parseCSV(data) { /* CSV 데이터 파싱 함수 */
             return new Promise((resolve) => {
-                Papa.parse(data, { // PapaParse 라이브러리를 사용하여 파싱
-                    complete: function(results) {
-                        resolve(results.data); // 파싱 결과 반환
+                Papa.parse(data, { /* 파파파스 라이브러리 사용 */
+                    complete: function(results) { /* 파싱 완료 콜백 함수 */
+                        resolve(results.data); /* 파싱된 데이터 반환 */
                     }
                 });
             });
         }
 
-        function updateYearDropdown() { // 연도 드롭다운을 업데이트하는 함수
-            const yearDropdown = document.getElementById('search-year'); // 연도 드롭다운 요소 선택
-            const years = new Set(); // 연도 저장할 Set 생성
+        function updateYearDropdown() { /* 연도 드롭다운 업데이트 함수 */
+            const yearDropdown = document.getElementById('search-year');
+            const years = new Set();
 
-            const headers = csvData[0]; // CSV 데이터의 첫 번째 행(헤더) 선택
-            const dateColumnIndex = headers.indexOf("Carimbo de data/hora"); // 날짜 열의 인덱스 찾기
+            const headers = csvData[0]; /* CSV 헤더 가져오기 */
+            const dateColumnIndex = headers.indexOf("Carimbo de data/hora"); /* 날짜 열 인덱스 찾기 */
 
-            if (dateColumnIndex === -1) {
-                console.error("Date column not found!"); // 날짜 열이 없을 경우 오류 출력
+            if (dateColumnIndex === -1) { /* 날짜 열이 없는 경우 */
+                console.error("Date column not found!"); /* 오류 메시지 출력 */
                 return;
             }
 
-            csvData.slice(1).forEach(row => { // 데이터 행 반복
-                const dateValue = row[dateColumnIndex]; // 날짜 값 가져오기
-                const yearValue = new Date(dateValue).getFullYear(); // 날짜 값을 연도로 변환
-                if (!isNaN(yearValue)) {
-                    years.add(yearValue); // 연도 값 Set에 추가
+            csvData.slice(1).forEach(row => { /* 데이터 행 반복 */
+                const dateValue = row[dateColumnIndex]; /* 날짜 값 가져오기 */
+                const yearValue = new Date(dateValue).getFullYear(); /* 날짜 값을 연도로 변환 */
+                if (!isNaN(yearValue)) { /* 연도 값이 유효한 경우 */
+                    years.add(yearValue); /* 연도 집합에 추가 */
                 }
             });
 
-            Array.from(years).sort((a, b) => b - a).forEach(year => { // 내림차순으로 정렬된 연도 반복
-                const option = document.createElement('option'); // 옵션 요소 생성
-                option.value = year; // 값 설정
-                option.textContent = year; // 텍스트 설정
-                yearDropdown.appendChild(option); // 드롭다운에 추가
+            Array.from(years).sort().forEach(year => { /* 연도를 정렬하여 반복 */
+                const option = document.createElement('option');
+                option.value = year; /* 연도 값 설정 */
+                option.textContent = year; /* 연도 텍스트 설정 */
+                yearDropdown.appendChild(option); /* 드롭다운에 추가 */
             });
         }
 
-        function displayCSV(rows, tableId) { // CSV 데이터를 테이블에 표시하는 함수
-            const table = document.getElementById(tableId); // 테이블 요소 선택
-            const thead = table.querySelector('thead'); // 테이블 헤더 선택
-            const tbody = table.querySelector('tbody'); // 테이블 바디 선택
+        function displayCSV(rows, tableId) { /* CSV 데이터 표시 함수 */
+            const table = document.getElementById(tableId);
+            const thead = table.querySelector('thead');
+            const tbody = table.querySelector('tbody');
 
-            thead.innerHTML = ''; // 헤더 초기화
-            tbody.innerHTML = ''; // 바디 초기화
+            thead.innerHTML = ''; /* 테이블 헤더 초기화 */
+            tbody.innerHTML = ''; /* 테이블 바디 초기화 */
 
-            const headers = rows[0]; // 첫 번째 행(헤더) 선택
-            const validColumns = headers.map((header, index) => (header ? index : null)).filter(index => index !== null); // 유효한 열 인덱스 저장
+            const headers = rows[0]; /* CSV 헤더 가져오기 */
+            const validColumns = headers.map((header, index) => (header ? index : null)).filter(index => index !== null); /* 유효한 열 인덱스 가져오기 */
 
-            const headerRow = document.createElement('tr'); // 헤더 행 생성
-            validColumns.forEach(index => { // 유효한 열 반복
-                const th = document.createElement('th'); // 헤더 셀 생성
-                th.textContent = headers[index]; // 텍스트 설정
-                th.dataset.index = index; // 데이터 인덱스 설정
+            const headerRow = document.createElement('tr');
+            validColumns.forEach(index => {
+                const th = document.createElement('th');
+                th.textContent = headers[index];
+                th.dataset.index = index;
                 if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
-                    th.classList.add('fixed'); // 고정 클래스 추가
+                    th.classList.add('fixed');
                 }
-                if (headers[index] === "CHK1" || headers[index] === "CHK2" || headers[index] === "b.CNPJ" || headers[index] === "c. Endereço (Sem CEP)" || headers[index] === "Column3" || headers[index] === "Column4") {
-                th.classList.add('hidden-column'); // 숨기고 싶은 열에 클래스 추가
+                if (headers[index] === "CHK1" || headers[index] === "CHK2") {
+                    th.classList.add('hidden-column');
                 }
-                headerRow.appendChild(th); // 헤더 행에 추가
+                headerRow.appendChild(th);
             });
-            thead.appendChild(headerRow); // 테이블 헤더에 추가
+            thead.appendChild(headerRow);
 
-            totalInquiriesCount = 0; // 총 문의 수 초기화
+            totalInquiriesCount = 0;
 
-            rows.slice(1).forEach(row => { // 데이터 행 반복
-                const dataRow = document.createElement('tr'); // 데이터 행 생성
-                let inquiryCount = 0; // 문의 수 초기화
-                validColumns.forEach(index => { // 유효한 열 반복
-                    const cell = row[index]; // 셀 값 가져오기
-                    const td = document.createElement('td'); // 데이터 셀 생성
-                    td.textContent = cell; // 텍스트 설정
-                    td.tabIndex = 0; // 탭 인덱스 설정
-                    td.style.minWidth = "100px"; // 최소 너비 설정
+            rows.slice(1).forEach(row => {
+                const dataRow = document.createElement('tr');
+                let inquiryCount = 0;
+                validColumns.forEach(index => {
+                    const cell = row[index];
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    td.tabIndex = 0;
+                    td.style.minWidth = "100px";
                     if (headers[index] === "CHK1" || headers[index] === "CHK2") {
-                        td.classList.add('hidden-column'); // 숨기고 싶은 열에 클래스 추가
+                        td.classList.add('hidden-column');
                     }
                     if (headers[index] === "Inquiry NO 1" || headers[index] === "Inquiry NO 2") {
-                        inquiryCount += cell ? 1 : 0; // 문의 수 증가
+                        inquiryCount += cell ? 1 : 0;
                     }
                     if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
-                        td.classList.add('fixed'); // 고정 클래스 추가
+                        td.classList.add('fixed');
                     }
-                    dataRow.appendChild(td); // 데이터 행에 추가
+                    dataRow.appendChild(td);
                 });
-                tbody.appendChild(dataRow); // 테이블 바디에 추가
-                totalInquiriesCount += inquiryCount; // 총 문의 수 증가
+                tbody.appendChild(dataRow);
+                totalInquiriesCount += inquiryCount;
             });
 
-            addKeyboardNavigation(tableId); // 키보드 네비게이션 추가
+            addKeyboardNavigation(tableId);
         }
 
-        function searchCSV() { // CSV 파일을 검색하는 함수
-            const query = document.getElementById('search-input').value.toLowerCase().trim(); // 검색어 가져오기
-            const category = document.getElementById('search-category').value; // 카테고리 가져오기
-            const year = document.getElementById('search-year').value; // 연도 가져오기
+        function searchCSV() { /* CSV 검색 함수 */
+            const query = document.getElementById('search-input').value.toLowerCase().trim(); /* 검색어 가져오기 */
+            const category = document.getElementById('search-category').value; /* 검색 카테고리 가져오기 */
+            const year = document.getElementById('search-year').value; /* 검색 연도 가져오기 */
 
-            const companyField = "a. razão social (nome completo do cnpj)".toLowerCase(); // 회사 필드 설정
-            const inquiry1Field = "inquiry no 1".toLowerCase(); // 문의 필드 1 설정
-            const inquiry2Field = "inquiry no 2".toLowerCase(); // 문의 필드 2 설정
-            const ncmField = "b código ncm (pelo menos 6 dígitos, sem \"\")".toLowerCase(); // NCM 필드 설정
-            const segmentoField = "e. segmento de mercado".toLowerCase(); // 세그먼트 필드 설정
-            const productFieldA = "a. produto de interesse".toLowerCase(); // 제품 필드 A 설정
-            const productFieldB = "b. produto de interesse".toLowerCase(); // 제품 필드 B 설정
-            const staffField = "Staff".toLowerCase(); // 직원 필드 설정
+            const companyField = "a. razão social (nome completo do cnpj)".toLowerCase();
+            const inquiry1Field = "inquiry no 1".toLowerCase();
+            const inquiry2Field = "inquiry no 2".toLowerCase();
+            const ncmField = "b código ncm (pelo menos 6 dígitos, sem \"\")".toLowerCase();
+            const segmentoField = "e. segmento de mercado".toLowerCase();
+            const productFieldA = "a. produto de interesse".toLowerCase();
+            const productFieldB = "b. produto de interesse".toLowerCase();
+            const staffField = "Staff".toLowerCase();
 
-            const results = csvData.filter((row, index) => { // 필터링된 결과
-                if (index === 0) return false; // 첫 번째 행 제외
+            const results = csvData.filter((row, index) => {
+                if (index === 0) return false;
 
-                const dateColumnIndex = csvData[0].indexOf("Carimbo de data/hora"); // 날짜 열 인덱스 가져오기
-                const dateValue = row[dateColumnIndex]; // 날짜 값 가져오기
-                const yearValue = new Date(dateValue).getFullYear(); // 날짜 값을 연도로 변환
+                const dateColumnIndex = csvData[0].indexOf("Carimbo de data/hora"); /* 날짜 열 인덱스 가져오기 */
+                const dateValue = row[dateColumnIndex]; /* 날짜 값 가져오기 */
+                const yearValue = new Date(dateValue).getFullYear(); /* 날짜 값을 연도로 변환 */
 
-                if (year !== "all" && year !== yearValue.toString()) return false; // 연도 필터링
+                // 연도 필터링 조건 수정
+                if (year !== 'all' && year !== yearValue.toString()) return false;
 
-                let matchFound = false; // 매치 여부 초기화
+                let matchFound = false;
 
-                row.forEach((cell, cellIndex) => { // 셀 반복
-                    const cellValue = cell.toLowerCase(); // 셀 값 소문자로 변환
-                    const header = csvData[0][cellIndex].toLowerCase().trim(); // 헤더 소문자로 변환
+                row.forEach((cell, cellIndex) => {
+                    const cellValue = cell.toLowerCase();
+                    const header = csvData[0][cellIndex].toLowerCase().trim();
 
                     if (category === 'all' && cellValue.includes(query)) {
-                        matchFound = true; // 전체 검색 시 매치
+                        matchFound = true;
                     } else if (category === 'company' && header === companyField && cellValue.includes(query)) {
-                        matchFound = true; // 회사명 검색 시 매치
+                        matchFound = true;
                     } else if (category === 'inquiry' && (header === inquiry1Field || header === inquiry2Field) && cellValue.includes(query)) {
-                        matchFound = true; // 문의 검색 시 매치
+                        matchFound = true;
                     } else if (category === 'ncm' && header === ncmField && cellValue.startsWith(query)) {
-                        matchFound = true; // NCM 검색 시 매치
+                        matchFound = true;
                     } else if (category === 'segmento' && header === segmentoField && cellValue.includes(query)) {
-                        matchFound = true; // 세그먼트 검색 시 매치
+                        matchFound = true;
                     } else if (category === 'product' && (header === productFieldA || header === productFieldB) && cellValue.includes(query)) {
-                        matchFound = true; // 제품 검색 시 매치
+                        matchFound = true;
                     } else if (category === 'staff' && header === staffField && cellValue.includes(query)) {
-                        matchFound = true; // 직원 검색 시 매치
+                        matchFound = true;
                     }
                 });
 
-                return matchFound; // 매치 여부 반환
+                return matchFound;
             });
 
-            results.unshift(csvData[0]); // 헤더 추가
+            results.unshift(csvData[0]);
 
-            displayCSV(results, 'search-results-table'); // 검색 결과 테이블에 표시
-            document.getElementById('total-inquiries').textContent = `Total Inquiries: ${totalInquiriesCount}`; // 총 문의 수 표시
+            displayCSV(results, 'search-results-table');
+            document.getElementById('total-inquiries').textContent = `Total Inquiries: ${totalInquiriesCount}`;
         }
 
-        function deleteSearch() { // 검색 삭제 버튼 클릭 시 호출되는 함수
-            document.getElementById('search-input').value = ''; // 검색 입력 필드 초기화
-            const table = document.getElementById('search-results-table'); // 검색 결과 테이블 선택
-            table.querySelector('thead').innerHTML = ''; // 테이블 헤더 초기화
-            table.querySelector('tbody').innerHTML = ''; // 테이블 바디 초기화
-            document.getElementById('total-inquiries').textContent = ''; // 총 문의 수 초기화
+        function deleteSearch() { /* 검색 삭제 함수 */
+            document.getElementById('search-input').value = '';
+            const table = document.getElementById('search-results-table');
+            table.querySelector('thead').innerHTML = '';
+            table.querySelector('tbody').innerHTML = '';
+            document.getElementById('total-inquiries').textContent = '';
         }
 
-        function handleKeyPress(event) { // 검색 입력 필드에서 Enter 키를 누를 때 호출되는 함수
+        function handleKeyPress(event) { /* 키보드 입력 핸들링 함수 */
             if (event.key === 'Enter') {
-                searchCSV(); // Enter 키를 누르면 검색 실행
+                searchCSV();
             }
         }
 
-        function checkPassword() { // 비밀번호를 확인하는 함수
-            const password = prompt("Please enter the password:"); // 비밀번호 입력 프롬프트
+        function checkPassword() { /* 비밀번호 확인 함수 */
+            const password = prompt("Please enter the password:");
             if (password === correctPassword) {
-                document.getElementById('search-container').style.display = 'flex'; // 검색 컨테이너 표시
-                document.querySelectorAll('.table-container').forEach(el => el.style.display = 'block'); // 테이블 컨테이너 표시
-                loadCSVData(); // CSV 데이터 로드
+                document.getElementById('search-container').style.display = 'flex';
+                document.querySelectorAll('.table-container').forEach(el => el.style.display = 'block');
+                loadCSVData();
             } else {
-                alert('Incorrect password.'); // 잘못된 비밀번호 알림
+                alert('Incorrect password.');
             }
         }
 
-        async function loadCSVData() { // CSV 데이터를 로드하는 비동기 함수
-            const data = await fetchCSV(); // CSV 데이터 가져오기
-            csvData = await parseCSV(data); // CSV 데이터 파싱
-            updateYearDropdown(); // 연도 드롭다운 업데이트
-            displayCSV(csvData, 'csv-table'); // CSV 데이터를 테이블에 표시
+        async function loadCSVData() { /* CSV 데이터 로드 함수 */
+            const data = await fetchCSV();
+            csvData = await parseCSV(data);
+            updateYearDropdown();
+            displayCSV(csvData, 'csv-table');
         }
 
-        document.addEventListener('DOMContentLoaded', checkPassword); // DOMContentLoaded 이벤트 발생 시 비밀번호 확인
+        document.addEventListener('DOMContentLoaded', checkPassword);
 
-        function addKeyboardNavigation(tableId) { // 키보드 네비게이션을 추가하는 함수
-            const table = document.getElementById(tableId); // 테이블 요소 선택
-            let currentCell = null; // 현재 셀 초기화
+        function addKeyboardNavigation(tableId) { /* 키보드 네비게이션 추가 함수 */
+            const table = document.getElementById(tableId);
+            let currentCell = null;
 
-            table.addEventListener('click', (e) => { // 테이블 클릭 이벤트 리스너
+            table.addEventListener('click', (e) => {
                 if (e.target.tagName === 'TD') {
                     if (currentCell) {
-                        currentCell.classList.remove('highlight'); // 현재 셀 강조 제거
+                        currentCell.classList.remove('highlight');
                     }
-                    currentCell = e.target; // 클릭된 셀 선택
-                    currentCell.classList.add('highlight'); // 강조 추가
-                    currentCell.focus(); // 포커스 설정
+                    currentCell = e.target;
+                    currentCell.classList.add('highlight');
+                    currentCell.focus();
                 }
             });
 
-            table.addEventListener('keydown', (e) => { // 테이블 키다운 이벤트 리스너
+            table.addEventListener('keydown', (e) => {
                 if (!currentCell) return;
 
-                const currentRow = currentCell.parentElement; // 현재 행 선택
-                const currentCellIndex = Array.prototype.indexOf.call(currentRow.children, currentCell); // 현재 셀 인덱스
+                const currentRow = currentCell.parentElement;
+                const currentCellIndex = Array.prototype.indexOf.call(currentRow.children, currentCell);
 
                 if (e.key === 'ArrowRight') {
-                    const nextCell = currentCell.nextElementSibling; // 다음 셀 선택
+                    const nextCell = currentCell.nextElementSibling;
                     if (nextCell) {
-                        currentCell.classList.remove('highlight'); // 현재 셀 강조 제거
-                        currentCell = nextCell; // 다음 셀 선택
-                        currentCell.classList.add('highlight'); // 강조 추가
-                        currentCell.focus(); // 포커스 설정
+                        currentCell.classList.remove('highlight');
+                        currentCell = nextCell;
+                        currentCell.classList.add('highlight');
+                        currentCell.focus();
                     }
                 } else if (e.key === 'ArrowLeft') {
-                    const prevCell = currentCell.previousElementSibling; // 이전 셀 선택
+                    const prevCell = currentCell.previousElementSibling;
                     if (prevCell) {
-                        currentCell.classList.remove('highlight'); // 현재 셀 강조 제거
-                        currentCell = prevCell; // 이전 셀 선택
-                        currentCell.classList.add('highlight'); // 강조 추가
-                        currentCell.focus(); // 포커스 설정
+                        currentCell.classList.remove('highlight');
+                        currentCell = prevCell;
+                        currentCell.classList.add('highlight');
+                        currentCell.focus();
                     }
                 } else if (e.key === 'ArrowDown') {
-                    const nextRow = currentRow.nextElementSibling; // 다음 행 선택
+                    const nextRow = currentRow.nextElementSibling;
                     if (nextRow) {
-                        currentCell.classList.remove('highlight'); // 현재 셀 강조 제거
-                        currentCell = nextRow.children[currentCellIndex]; // 다음 행의 동일한 셀 선택
-                        currentCell.classList.add('highlight'); // 강조 추가
-                        currentCell.focus(); // 포커스 설정
-                        ensureFirstRowVisible(); // 첫 번째 행 보이도록 설정
+                        currentCell.classList.remove('highlight');
+                        currentCell = nextRow.children[currentCellIndex];
+                        currentCell.classList.add('highlight');
+                        currentCell.focus();
+                        ensureFirstRowVisible();
                     }
                 } else if (e.key === 'ArrowUp') {
-                    const prevRow = currentRow.previousElementSibling; // 이전 행 선택
+                    const prevRow = currentRow.previousElementSibling;
                     if (prevRow) {
-                        currentCell.classList.remove('highlight'); // 현재 셀 강조 제거
-                        currentCell = prevRow.children[currentCellIndex]; // 이전 행의 동일한 셀 선택
-                        currentCell.classList.add('highlight'); // 강조 추가
-                        currentCell.focus(); // 포커스 설정
-                        ensureFirstRowVisible(); // 첫 번째 행 보이도록 설정
+                        currentCell.classList.remove('highlight');
+                        currentCell = prevRow.children[currentCellIndex];
+                        currentCell.classList.add('highlight');
+                        currentCell.focus();
+                        ensureFirstRowVisible();
                     }
                 }
             });
         }
 
-        function ensureFirstRowVisible() { // 첫 번째 행이 보이도록 스크롤하는 함수
-            const tableContainer = document.querySelector('.table-container'); // 테이블 컨테이너 선택
-            const firstRow = tableContainer.querySelector('thead'); // 첫 번째 행 선택
-            const scrollTop = tableContainer.scrollTop; // 현재 스크롤 위치
-            const tableRect = tableContainer.getBoundingClientRect(); // 테이블 컨테이너 위치
-            const firstRowRect = firstRow.getBoundingClientRect(); // 첫 번째 행 위치
+        function ensureFirstRowVisible() { /* 첫 번째 행이 보이도록 보장하는 함수 */
+            const tableContainer = document.querySelector('.table-container');
+            const firstRow = tableContainer.querySelector('thead');
+            const scrollTop = tableContainer.scrollTop;
+            const tableRect = tableContainer.getBoundingClientRect();
+            const firstRowRect = firstRow.getBoundingClientRect();
 
             if (firstRowRect.top < tableRect.top) {
-                tableContainer.scrollTop = scrollTop - (tableRect.top - firstRowRect.top); // 첫 번째 행이 보이도록 스크롤 설정
+                tableContainer.scrollTop = scrollTop - (tableRect.top - firstRowRect.top);
             }
         }
 
-        function openReport() { // 보고서 창을 여는 함수
-            const reportWindow = window.open("", "ReportWindow", "width=800,height=600"); // 보고서 창 열기
-            reportWindow.document.write("<h1>Report</h1>"); // 보고서 제목
-            reportWindow.document.write("<canvas id='reportChart' width='800' height='400'></canvas>"); // 차트 캔버스
-            reportWindow.document.write('<div class="text-input-container"><h2>Companies with 1 Inquiry:</h2><table class="one-inquiry-table"><thead><tr><th>Company Name</th></tr></thead><tbody></tbody></table></div>'); // 단일 문의 회사 목록
+        function openReport() { /* 리포트 창 열기 함수 */
+            const reportWindow = window.open("", "ReportWindow", "width=800,height=600");
+            reportWindow.document.write("<h1>Report</h1>");
+            reportWindow.document.write("<canvas id='reportChart' width='800' height='400'></canvas>");
+            reportWindow.document.write('<div class="text-input-container"><h2>Companies with 1 Inquiry:</h2><table class="one-inquiry-table"><thead><tr><th>Company Name</th></tr></thead><tbody></tbody></table></div>');
 
-            const ctx = reportWindow.document.getElementById('reportChart').getContext('2d'); // 차트 컨텍스트 가져오기
-            const tableBody = reportWindow.document.querySelector('.one-inquiry-table tbody'); // 단일 문의 회사 목록 테이블 바디 선택
+            const ctx = reportWindow.document.getElementById('reportChart').getContext('2d');
+            const tableBody = reportWindow.document.querySelector('.one-inquiry-table tbody');
 
-            const table = document.getElementById('search-results-table'); // 검색 결과 테이블 선택
-            const headers = table.querySelectorAll('th'); // 테이블 헤더 선택
-            const rows = table.querySelectorAll('tbody tr'); // 테이블 행 선택
+            const table = document.getElementById('search-results-table');
+            const headers = table.querySelectorAll('th');
+            const rows = table.querySelectorAll('tbody tr');
 
-            const labels = []; // 라벨 배열
-            const data = []; // 데이터 배열
-            const companyData = {}; // 회사 데이터 객체
+            const labels = [];
+            const data = [];
+            const companyData = {};
 
-            let companyIndex = -1; // 회사 인덱스 초기화
-            let inquiry1Index = -1; // 문의 1 인덱스 초기화
-            let inquiry2Index = -1; // 문의 2 인덱스 초기화
+            let companyIndex = -1;
+            let inquiry1Index = -1;
+            let inquiry2Index = -1;
             headers.forEach((header, index) => {
                 if (header.textContent === 'a. Razão Social (Nome completo do CNPJ)') {
-                    companyIndex = index; // 회사 인덱스 설정
+                    companyIndex = index;
                 } else if (header.textContent === 'Inquiry NO 1') {
-                    inquiry1Index = index; // 문의 1 인덱스 설정
+                    inquiry1Index = index;
                 } else if (header.textContent === 'Inquiry NO 2') {
-                    inquiry2Index = index; // 문의 2 인덱스 설정
+                    inquiry2Index = index;
                 }
             });
 
             rows.forEach(row => {
-                const cells = row.querySelectorAll('td'); // 행의 셀 선택
+                const cells = row.querySelectorAll('td');
                 if (companyIndex === -1 || inquiry1Index === -1 || inquiry2Index === -1 || cells.length <= companyIndex || cells.length <= inquiry1Index || cells.length <= inquiry2Index) {
-                    console.error('Index out of bounds or invalid cell reference'); // 인덱스 오류 출력
+                    console.error('Index out of bounds or invalid cell reference');
                     return;
                 }
 
-                const companyName = cells[companyIndex].textContent || 'N/A'; // 회사명 가져오기
-                const inquiry1Value = cells[inquiry1Index].textContent ? 1 : 0; // 문의 1 값 설정
-                const inquiry2Value = cells[inquiry2Index].textContent ? 1 : 0; // 문의 2 값 설정
-                const totalInquiryValue = inquiry1Value + inquiry2Value; // 총 문의 값 계산
+                const companyName = cells[companyIndex].textContent || 'N/A';
+                const inquiry1Value = cells[inquiry1Index].textContent ? 1 : 0;
+                const inquiry2Value = cells[inquiry2Index].textContent ? 1 : 0;
+                const totalInquiryValue = inquiry1Value + inquiry2Value;
 
                 if (!companyData[companyName]) {
-                    companyData[companyName] = 0; // 회사 데이터 초기화
+                    companyData[companyName] = 0;
                 }
-                companyData[companyName] += totalInquiryValue; // 총 문의 값 추가
+                companyData[companyName] += totalInquiryValue;
             });
 
-            const sortedCompanyData = Object.entries(companyData).sort((a, b) => b[1] - a[1]); // 회사 데이터 정렬
+            const sortedCompanyData = Object.entries(companyData).sort((a, b) => b[1] - a[1]);
 
             sortedCompanyData.forEach(([companyName, totalInquiries]) => {
                 if (totalInquiries === 1) {
-                    const row = document.createElement('tr'); // 행 생성
-                    const cell = document.createElement('td'); // 셀 생성
-                    cell.textContent = companyName; // 셀 텍스트 설정
-                    row.appendChild(cell); // 행에 셀 추가
-                    tableBody.appendChild(row); // 테이블 바디에 행 추가
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.textContent = companyName;
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
                 } else {
-                    labels.push(companyName); // 라벨 추가
-                    data.push(totalInquiries); // 데이터 추가
+                    labels.push(companyName);
+                    data.push(totalInquiries);
                 }
             });
 
             new Chart(ctx, {
-                type: 'bar', // 차트 유형 설정
+                type: 'bar',
                 data: {
-                    labels: labels, // 라벨 설정
+                    labels: labels,
                     datasets: [{
-                        label: 'Total Inquiries (Inquiry NO 1 + Inquiry NO 2)', // 데이터셋 라벨
-                        data: data, // 데이터 설정
-                        backgroundColor: 'rgba(255, 205, 86, 0.8)', // 배경색 설정
-                        borderColor: 'rgba(255, 205, 86, 1)', // 테두리 색상 설정
-                        borderWidth: 1 // 테두리 두께 설정
+                        label: 'Total Inquiries (Inquiry NO 1 + Inquiry NO 2)',
+                        data: data,
+                        backgroundColor: 'rgba(255, 205, 86, 0.8)',
+                        borderColor: 'rgba(255, 205, 86, 1)',
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true // Y축 0부터 시작 설정
+                            beginAtZero: true
                         }
                     },
                     plugins: {
                         legend: {
-                            display: true, // 범례 표시 설정
-                            position: 'top', // 범례 위치 설정
+                            display: true,
+                            position: 'top',
                         },
                         tooltip: {
-                            enabled: true, // 툴팁 활성화 설정
+                            enabled: true,
                         },
                         datalabels: {
-                            anchor: 'end', // 데이터 라벨 앵커 설정
-                            align: 'end', // 데이터 라벨 정렬 설정
+                            anchor: 'end',
+                            align: 'end',
                             formatter: function(value, context) {
-                                return value; // 데이터 라벨 포맷터 설정
+                                return value;
                             },
-                            color: 'black', // 데이터 라벨 색상 설정
+                            color: 'black',
                             font: {
-                                weight: 'bold' // 데이터 라벨 글자 두께 설정
+                                weight: 'bold'
                             }
                         }
                     },
                 },
-                plugins: [ChartDataLabels] // 데이터 라벨 플러그인 추가
+                plugins: [ChartDataLabels]
             });
         }
 
-        function loadChartScripts() { // 차트 스크립트를 로드하는 함수
-            const script = document.createElement('script'); // 스크립트 요소 생성
-            script.src = 'https://cdn.jsdelivr.net/npm/chart.js'; // Chart.js 스크립트 URL 설정
+        function loadChartScripts() { /* 차트 스크립트 로드 함수 */
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
             script.onload = () => {
-                const scriptDatalabels = document.createElement('script'); // 데이터 라벨 스크립트 요소 생성
-                scriptDatalabels.src = 'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels'; // 데이터 라벨 플러그인 스크립트 URL 설정
-                scriptDatalabels.onload = openReport; // 데이터 라벨 플러그인 로드 완료 후 보고서 창 열기
-                document.head.appendChild(scriptDatalabels); // 데이터 라벨 플러그인 스크립트 추가
+                const scriptDatalabels = document.createElement('script');
+                scriptDatalabels.src = 'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels';
+                scriptDatalabels.onload = openReport;
+                document.head.appendChild(scriptDatalabels);
             };
-            document.head.appendChild(script); // Chart.js 스크립트 추가
+            document.head.appendChild(script);
         }
     </script>
 </body>
