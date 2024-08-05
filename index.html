@@ -298,9 +298,6 @@
                     if (headers[index] === "Inquiry NO 1" || headers[index] === "Inquiry NO 2") {
                         inquiryCount += cell ? 1 : 0;
                     }
-                    if (headers[index] === "a. Razão Social (Nome completo do CNPJ)") {
-                        td.classList.add('fixed');
-                    }
                     dataRow.appendChild(td);
                 });
                 tbody.appendChild(dataRow);
